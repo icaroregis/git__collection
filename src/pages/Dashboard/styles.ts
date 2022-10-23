@@ -2,11 +2,11 @@ import styled from "styled-components";
 import { shade } from "polished";
 
 export const Title = styled.h1`
-  font-size: 48px;
+  font-size: 38px;
   color: #3a3a3a;
   max-width: 450px;
   line-height: 56px;
-  margin-top: 60px;
+  margin-top: 40px;
 `;
 
 export const Form = styled.form`
@@ -41,4 +41,60 @@ export const Form = styled.form`
       background-color: ${shade(0.2, "#04d361")};
     }
   }
+`;
+
+export const Repo = styled.div`
+  margin-top: 30px;
+  max-width: 700px;
+
+  .link {
+    background: #fff;
+    border-radius: 5px;
+    width: 100%;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: translateX(6px);
+    }
+
+    & + .link {
+      margin-top: 16px;
+    }
+
+    img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+    }
+
+    div {
+      margin: 0 16px;
+      flex: 1;
+
+      strong {
+        font-size: 20px;
+        color: #3d3d4d;
+      }
+
+      p {
+        font-size: 18px;
+        color: #a8a8b3;
+        margin-top: 4px;
+      }
+    }
+
+    svg {
+      margin-left: auto;
+      color: #cbcbd6;
+    }
+  }
+`;
+
+export const Error = styled.span`
+  display: block;
+  color: #c53030;
+  margin-top: 5px;
 `;
