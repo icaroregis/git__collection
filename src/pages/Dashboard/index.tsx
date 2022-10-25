@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../../assets/logo.svg";
 import { Link } from "react-router-dom";
 import { GithubRepository } from "../../interfaces/github-repository";
@@ -8,8 +8,19 @@ import { Title, Form, Repo } from "./styles";
 import { toast, ToastContainer } from "react-toastify";
 
 export const Dashboard: React.FC = () => {
-  const [repositories, setRepositories] = useState<GithubRepository[]>([]);
-  const [newRepo, setNewRepo] = useState("");
+  const [repositories, setRepositories] = useState<GithubRepository[]>(() => {
+    const storageRepos = localStorage.getItem("@GitCollection:repositories");
+
+    if (storageRepos) {
+      return JSON.parse(storageRepos);
+    }
+    return [];
+  });
+  const [newRepo, setNewRepo] = useState<string>("");
+
+  useEffect(() => {
+    localStorage.setItem("GitCollection:repositories", JSON.stringify(repositories));
+  }, [repositories]);
 
   async function handleAddRepository(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
@@ -17,10 +28,14 @@ export const Dashboard: React.FC = () => {
     if (!newRepo) {
       toast.error("É necessário informar seu nome / nome do repositório!!");
     } else {
-      const response = await api.get<GithubRepository>(`repos/${newRepo}`);
-      const repository = response.data;
-      setRepositories([...repositories, repository]);
-      setNewRepo("");
+      try {
+        const response = await api.get<GithubRepository>(`repos/${newRepo}`);
+        const repository = response.data;
+        setRepositories([...repositories, repository]);
+        setNewRepo("");
+      } catch {
+        toast.error("Repositório não encontrado no Github!!!");
+      }
     }
   }
 
@@ -34,20 +49,28 @@ export const Dashboard: React.FC = () => {
       </Form>
 
       <Repo>
-        {repositories.map((repository) => {
-          return (
-            <Link className="link" id="teste" to="/repositories" key={repository.full_name}>
-              <img src={repository.owner.avatar_url} alt={repository.owner.login} />
+        {repositories && repositories.length > 0 ? (
+          <>
+            {repositories.map((repository, index) => {
+              return (
+                <Link className="link" id="teste" to={`/repositories/${repository.full_name}`} key={repository.full_name + index}>
+                  <img src={repository.owner.avatar_url} alt={repository.owner.login} />
 
-              <div>
-                <strong>{repository.full_name}</strong>
-                <p>{repository.description}</p>
-              </div>
+                  <div>
+                    <strong>{repository.full_name}</strong>
+                    <p>{repository.description}</p>
+                  </div>
 
-              <FiChevronRight size={20} />
-            </Link>
-          );
-        })}
+                  <FiChevronRight size={20} />
+                </Link>
+              );
+            })}
+          </>
+        ) : (
+          <>
+            <h1>Não existem repositórios para serem listados</h1>
+          </>
+        )}
       </Repo>
 
       <ToastContainer />
