@@ -2,8 +2,14 @@ import styled from "styled-components";
 
 export const Header = styled.header`
   display: flex;
-  align-items: center;
+  flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: 450px) {
+    flex-direction: column;
+    align-items: center;
+  }
 
   a {
     display: flex;
@@ -25,9 +31,18 @@ export const Header = styled.header`
 export const RepoInfo = styled.section`
   margin-top: 80px;
 
+  @media (max-width: 500px) {
+    margin-top: 40px;
+  }
+
   header {
     display: flex;
     align-items: center;
+
+    @media (max-width: 500px) {
+      flex-direction: column;
+      align-items: center;
+    }
 
     img {
       width: 120px;
@@ -54,11 +69,28 @@ export const RepoInfo = styled.section`
     display: flex;
     list-style: none;
     margin-top: 40px;
+
+    @media (max-width: 380px) {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 
   li {
     & + li {
       margin-left: 80px;
+
+      @media (max-width: 500px) {
+        margin-left: 40px;
+      }
+
+      @media (max-width: 420px) {
+        margin-left: 20px;
+      }
+
+      @media (max-width: 380px) {
+        margin-left: inherit;
+      }
     }
 
     strong {
