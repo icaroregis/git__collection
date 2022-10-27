@@ -9,35 +9,36 @@ import { toast, ToastContainer } from "react-toastify";
 
 export const Dashboard: React.FC = () => {
   const [repositories, setRepositories] = useState<GithubRepository[]>(() => {
-    const storageRepos = localStorage.getItem("@GitCollection:repositories");
+    const storageRepos = localStorage.getItem("GitCollection:repositories");
 
     if (storageRepos) {
       return JSON.parse(storageRepos);
     }
     return [];
   });
-  const [newRepo, setNewRepo] = useState<string>("");
-
-  useEffect(() => {
-    localStorage.setItem("GitCollection:repositories", JSON.stringify(repositories));
-  }, [repositories]);
+  const [newRepo, setNewRepo] = useState("");
 
   async function handleAddRepository(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
 
     if (!newRepo) {
       toast.error("É necessário informar seu nome / nome do repositório!!");
-    } else {
-      try {
-        const response = await api.get<GithubRepository>(`repos/${newRepo}`);
-        const repository = response.data;
-        setRepositories([...repositories, repository]);
-        setNewRepo("");
-      } catch {
-        toast.error("Repositório não encontrado no Github!!!");
-      }
+      return;
+    }
+
+    try {
+      const response = await api.get<GithubRepository>(`repos/${newRepo}`);
+      const repository = response.data;
+      setRepositories([...repositories, repository]);
+      setNewRepo("");
+    } catch {
+      toast.error("Repositório não encontrado no Github!!!");
     }
   }
+
+  useEffect(() => {
+    localStorage.setItem("GitCollection:repositories", JSON.stringify(repositories));
+  }, [repositories]);
 
   return (
     <div>
@@ -51,7 +52,7 @@ export const Dashboard: React.FC = () => {
       <Repo>
         {repositories && repositories.length > 0 ? (
           <>
-            {repositories.map((repository, index) => {
+            {repositories.map((repository: any, index: any) => {
               return (
                 <Link className="link" id="teste" to={`/repositories/${repository.full_name}`} key={repository.full_name + index}>
                   <img src={repository.owner.avatar_url} alt={repository.owner.login} />
