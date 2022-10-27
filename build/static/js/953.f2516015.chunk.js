@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkgit_collection=self.webpackChunkgit_collection||[]).push([[953],{571:function(t,c,e){e(791);c.Z=e.p+"static/media/logo.ef8dccb6d7aaf8ae233e874d54bf98fa.svg"},33:function(t,c,e){e.d(c,{h:function(){return a}});var a=e(44).ZP.create({baseURL:"https://api.github.com/"})}}]);
+//# sourceMappingURL=953.f2516015.chunk.js.map
