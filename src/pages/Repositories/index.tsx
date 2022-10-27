@@ -17,14 +17,14 @@ const Repositories: React.FC = () => {
 
   useEffect(() => {
     api
-      .get(`repos/${newParams}`)
+      .get<RepositoryParams>(`repos/${newParams}`)
       .then((response: AxiosResponse<RepositoryParams>) => setRepository(response.data))
       .catch((err: string) => {
         toast.error(`Oops, ocorreu um erro ${err}`);
       });
 
     api
-      .get(`repos/${newParams}/issues`)
+      .get<GithubIssue[]>(`repos/${newParams}/issues`)
       .then((response: AxiosResponse<GithubIssue[]>) => setIssues(response.data))
       .catch((err: string) => {
         toast.error(`Oops, ocorreu um erro ${err}`);
