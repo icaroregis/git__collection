@@ -9,7 +9,7 @@ import { api } from "../../services/api";
 import { toast } from "react-toastify";
 import { AxiosResponse } from "axios";
 
-export const Repositories: React.FC = () => {
+const Repositories: React.FC = () => {
   const [repository, setRepository] = React.useState<RepositoryParams | null>(null);
   const [issues, setIssues] = React.useState<GithubIssue[]>([]);
   const params = useParams();
@@ -87,3 +87,5 @@ export const Repositories: React.FC = () => {
     </>
   );
 };
+
+export default Repositories;

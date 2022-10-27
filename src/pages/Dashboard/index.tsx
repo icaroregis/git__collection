@@ -7,7 +7,7 @@ import { FiChevronRight } from "react-icons/fi";
 import { Title, Form, Repo } from "./styles";
 import { toast, ToastContainer } from "react-toastify";
 
-export const Dashboard: React.FC = () => {
+const Dashboard: React.FC = () => {
   const [repositories, setRepositories] = useState<GithubRepository[]>(() => {
     const storageRepos = localStorage.getItem("GitCollection:repositories");
 
@@ -78,3 +78,5 @@ export const Dashboard: React.FC = () => {
     </div>
   );
 };
+
+export default Dashboard;
